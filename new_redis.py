@@ -140,6 +140,63 @@ class TestSet(Base):
 		return res
 
 
+class TestHash(Base):
+	"""
+	hset/hget -- 设置/获取散列值
+	hmset/hmget -- 设置/获取多对散列值
+	hsetnx -- 如果三列已经纯在，则不设置
+	hkeys/hvals -- 返回所有的keys/values
+	hlen -- 返回散列包含域（field）的数量
+	hdel -- 删除散列指定的域（field）
+	hexists -- 判断是否存在
+	"""
+	def test_hset(self,name,key,value):
+		res = self.r.hset(name,key,value)
+		print(res)
+		return self.r.hvals(name)
+
+	def test_hget(self,name,key):
+		res = self.r.hget(name, key)
+		print(res)
+		return res
+
+	def test_hmset(self, name, dict1):
+		res = self.r.hmset(name, dict1)
+		print(res)
+		return self.r.hvals(name)
+
+	def test_hmget(self, name, *keys):
+		res = self.r.hmget(name, *keys)
+		print(res)
+		return res
+
+	def test_hkeys(self, name):
+		res = self.r.hkeys(name)
+		print(res)
+		return res
+
+	def test_hvals(self, name):
+		res = self.r.hvals(name)
+		print(res)
+		return res
+
+	def test_hlen(self, name):
+		res = self.r.hlen(name)
+		print(res)
+		return res
+
+	def test_hdel(self, name, *keys):
+		res = self.r.hdel(name, *keys)
+		print(res)
+		return self.r.hkeys(name)
+
+	def test_hexists(self, name, key):
+		res = self.r.hexists(name, key)
+		print(res)
+		return res
+
+
+
 
 def main():
 	# -- 以下为str操作对象 --
@@ -164,15 +221,33 @@ def main():
 	# list_obj.test_rpop('user5')
 	
 	# -- 以下为set操作对象 --
-	li = {'aaa', 'bbb', 'ccc', 'ddd'}
-	li_rem = {'aaa', 'ccc'}
-	set_obj = TestSet()
+	# li = {'aaa', 'bbb', 'ccc', 'ddd'}
+	# li_rem = {'aaa', 'ccc'}
+	# set_obj = TestSet()
 	# set_obj.test_sadd('user9', *li)
 	# set_obj.test_srem('user7', *li_rem)
 	# set_obj.test_sismember('user7', 'aaa')
 	# set_obj.test_sdiff('user9', 'user8', 'user7')
 	# set_obj.test_sinter('user9', 'user8', 'user7')
-	set_obj.test_sunion('user9', 'user8', 'user7')
+	# set_obj.test_sunion('user9', 'user8', 'user7')
+
+	# -- 以下为hash操作对象 --
+	hash_obj = TestHash()
+	# hash_obj.test_hset('hash1', 'name', 'sunsc')
+	# hash_obj.test_hget('hash1', 'name')
+	# dict1 = {
+	# 'name': 'sunshuchang',
+	# 'age': 28,
+	# 'sex': 'man'
+	# }
+	# hash_obj.test_hmset('hash2', dict1)
+	# keys = ['name', 'age', 'sex']
+	# hash_obj.test_hmget('hash2', *keys)
+	# hash_obj.test_hkeys('hash2')
+	# hash_obj.test_hvals('hash2')
+	# hash_obj.test_hlen('hash2')
+	# hash_obj.test_hdel('hash2', 'name', 'sex')
+	hash_obj.test_hexists('hash2', 'age')
 
 
 
